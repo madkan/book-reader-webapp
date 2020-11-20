@@ -39,7 +39,7 @@ $(document).on('click','#stop1',function(){
         url: "/stop",
         data: {
             username: username,
-            bookname:'the happy prince and other stories',
+            bookname:'wuthering heights',
             timestamp:'tstamp'
         }
     });
@@ -78,7 +78,7 @@ $(document).on('click','#stop2',function(){
         url: "/stop",
         data: {
             username: username,
-            bookname:'the happy prince and other stories',
+            bookname:'swami and friends',
             timestamp:'tstamp'
         }
     });
@@ -108,7 +108,7 @@ $(document).on('click','#stop3',function(){
     $('#start1').prop('disabled',false);
     $('#start2').prop('disabled',false);
     $('#start3').prop('disabled',false);
-    $('#stop1').prop('disabled',true);
+    $('#stop3').prop('disabled',true);
     console.log('stop pressed');
     var username=$('#user').text();
     $.ajax(

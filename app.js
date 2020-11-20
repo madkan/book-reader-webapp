@@ -7,7 +7,7 @@ mongo.connect('mongodb://localhost:27017/nodedb', {useNewUrlParser:true,useUnifi
 var db=mongo.connection;
 db.on('error', console.log.bind(console, 'console error'));
 db.once('open', function(callback){
-    console.log('connected to local database');
+    console.log('connected to database');
 });
 
 var app = express();
@@ -19,6 +19,8 @@ app.use(express.static('public'));
 app.use(bodyparser.urlencoded({
     extended: true
 }));
+
+// ADMIN ROUTES
 
 app.get('/admin',function(req,res){
     res.render('admin');
@@ -39,7 +41,14 @@ app.post('/adduser',function(req,res){
 
 app.post('/checkstats',function(req,res){
     uname=req.body.uname;
-    // Find total reading duration of the user of each of the book he reads.
+    // Find total reading duration of the user of each of the book he reads
+    console.log('checking user statistics');
+    var query={username:uname};
+    db.collection('books').find(query).toArray(function(err,result){
+        if (err) throw err;
+        var sessions=result[0][books];
+        res.send(sessions);
+    });
 });
 
 app.post('/bookstats',function(req,res){
@@ -51,6 +60,8 @@ app.post('/totalstats',function(req,res){
     
 });
 
+// USER ROUTES
+
 app.get('/',function(req,res){
     res.render('userlogin');
 });
@@ -61,6 +72,7 @@ app.post('/login',function(req,res){
     var query={username:uname};
     db.collection('books').find(query).toArray(function(error,result){
         if(error) throw error;
+        console.log(result);
         //console.log(result[0]['password']);
         // set password for first time login
         if(result[0]['password']==undefined){
@@ -68,7 +80,7 @@ app.post('/login',function(req,res){
             db.collection('books').updateOne(query, newvals, function(error,result){
                 if (error) throw error;
                 console.log('password added into db');
-                res.render('index');
+                res.render('index',{uname:uname});
             });
         }
         // if password was previously set, validate password.
@@ -86,10 +98,36 @@ app.post('/login',function(req,res){
 app.post('/start',function(req,res){
     var uname=req.body.username;
     var tstamp=req.body.timestamp;
-    var bname=req.body.bookname;
+    var bookname=req.body.bookname;
     console.log('start pressed');
+    console.log(uname);
     // update in database
-    
+    var query={username:uname};
+    db.collection('books').find(query).toArray(function(err,result){
+        if (err) throw err;
+        if(result[0]['books']==undefined){
+            var newvals={$set:{books:{[bookname]:{session0:{ start:tstamp, stop : undefined}}}}};
+            db.collection('books').updateOne(query,newvals, function(err,result){
+                if (err) throw err;
+                console.log('books added to db');
+            });
+        }
+        else if(result[0]['books'][bookname]==undefined){
+            var newvals={ $set : { ["books."+bookname] : {session0:{start:tstamp, stop: undefined}} } };
+            db.collection('books').updateOne(query,newvals,function(err,result){
+                if(err) throw err;
+                console.log('new book added to db');
+            });
+        }
+        else{
+            var n=Object.keys(result[0]['books'][bookname]).length;
+            newvals = {$set : { ["books."+bookname+".session"+n.toString()] :{ start:tstamp, stop:undefined} } };
+            db.collection('books').updateOne(query,newvals,function(err,result){
+                if (err) throw err;
+                console.log('new timestamp added');
+            });
+        }
+    });
 });
 
 app.post('/stop',function(req,res){
@@ -98,8 +136,19 @@ app.post('/stop',function(req,res){
     var tstamp=req.body.timestamp;
     console.log('stop pressed');
     // update in database
+    query={username:uname}
+    db.collection('books').find(query).toArray(function(err,result){
+        if (err) throw err;
+        var q2={'stop' : null};
+        var n=Object.keys(result[0]['books'][bname]).length-1;
+        var newvals={$set:{["books."+bname+".session"+n.toString()+".stop"]:tstamp}}
+        db.collection('books').updateOne(q2,newvals,function(err,result){
+            if (err) throw err;
+            console.log('stop tstamp recorded');
+        });
+    });
 });
 
-app.listen(3000,function(){
+app.listen(3000,()=>{
     console.log('listening at port 3000');
 });
