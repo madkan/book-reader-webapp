@@ -41,23 +41,41 @@ app.post('/adduser',function(req,res){
 
 app.post('/checkstats',function(req,res){
     uname=req.body.uname;
-    // Find total reading duration of the user of each of the book he reads
+    // display total reading duration of the user of each of the book he reads
     console.log('checking user statistics');
     var query={username:uname};
     db.collection('books').find(query).toArray(function(err,result){
         if (err) throw err;
-        var sessions=result[0][books];
-        res.send(sessions);
+        var sessions=result[0]['books'];
+        res.render('userstats',{uname:uname,data:sessions});
     });
 });
 
 app.post('/bookstats',function(req,res){
-    bname=req.body.bname;
-    // Find total users who read the book and display statistics.
+    var bname=req.body.bname;
+    // display total users who read the book and display statistics
+    var query={}
+    db.collection('books').find(query).toArray(function(err,result){
+        if (err) throw err;
+        var count=0;
+        var users=[];
+        console.log(result.length);
+        for(var i=0;i<result.length;i++)
+        {
+            if(result[i]['books'][bname]==undefined){
+                continue;
+            }
+            else{
+                count+=1;
+                users.push(result[i]['username']);
+            }
+        }
+        res.render('bookstats',{bname:bname,count:count,users:users});
+    });
 });
 
 app.post('/totalstats',function(req,res){
-    
+    // display total reading hours of all the users on a given day
 });
 
 // USER ROUTES
@@ -136,7 +154,7 @@ app.post('/stop',function(req,res){
     var tstamp=req.body.timestamp;
     console.log('stop pressed');
     // update in database
-    query={username:uname}
+    query={username:uname};
     db.collection('books').find(query).toArray(function(err,result){
         if (err) throw err;
         var q2={'stop' : null};

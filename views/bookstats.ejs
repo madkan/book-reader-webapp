@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: cornflowerblue;
+                font-family: Arial, Helvetica, sans-serif;
+                padding: 20px;
+            }
+            h1{
+                color: white;
+                text-align: center;
+            }
+            h2{
+                color:white;
+            }
+            li{
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>TOTAL USERS WHO READ THE BOOK <%=bname%></h1>
+        <hr>
+        <h2>Number of Users : <%=count%></h2>
+        <h2>List of Users</h2>
+        <ul>
+            <%users.forEach(function(item){  %>
+                <li>
+                    <%=item%>
+                </li>
+         <%})%>
+        </ul>
+    </body>
+</html>

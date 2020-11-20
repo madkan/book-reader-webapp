@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: cornflowerblue;
+                padding: 20px;
+            }
+            h1{
+                color:white;
+            }
+            h2{
+                color:white;
+            }
+            table,th,td {
+                padding: 10px;
+                border: 1px solid black;
+                border-collapse: collapse;
+                color:cornflowerblue;
+                font-weight:bold;
+                background-color: rgb(247, 239, 138);
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style='text-align: center;'>USER STATISTICS OF <%=uname%> </h1>
+        <hr>
+        <h1>
+            All Start and End Timestamps of the user on different books
+        </h1>
+        <center>
+            <%var books=Object.keys(data);
+            for(var i=0;i<books.length;i++){%> 
+        <h2>Book Name : <%=books[i]%></h2>
+        <table>
+            <tr>
+                <td>Session</td>
+                <td>Start Timestamp</td>
+                <td>End Timestamp</td>
+            </tr>
+                <%var sessions=Object.keys(data[books[i]]);
+                for(var j=0;j<sessions.length;j++){%>
+                <tr>
+                    <td><%='session '+j.toString()%></td>
+                    <td><%=data[books[i]][sessions[j]]['start']%></td>
+                    <td><%=data[books[i]][sessions[j]]['stop']%></td>
+                </tr>
+            <%}}%>
+        </table>
+        </center>
+    </body>
+</html>
