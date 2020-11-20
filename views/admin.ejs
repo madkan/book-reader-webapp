@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: cornflowerblue;
+                font-family: Arial, Helvetica, sans-serif;
+                padding: 20px;
+                color:white;
+            }
+            h1{
+                text-align: center;
+                color: cornflowerblue;
+            }
+            input{
+                width:200px;
+                height: 25px;
+                border:0px;
+                border-radius: 10px;
+                padding: 5px;
+                font-size: 15px;
+            }
+            td{
+                padding: 10px;
+            }
+            #container{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                column-gap: 15px;
+            }
+            .grid-item{
+                background-color: rgb(247, 239, 138);
+                padding: 10px;
+            }
+            #main{
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id='main'>
+            CHECK STATISTICS OR ADD USER HERE
+        </h1>
+        <hr>
+        <br>
+        <div id='container'>
+            <div class='grid-item'>
+                <h1>
+                    Add A new User
+                </h1>
+                <hr>
+                <br>
+                <form method='POST' action='/adduser'>
+                    <center>
+                        <input type='text' id='uname' name='uname' placeholder='Enter Username...'>
+                        <br><br>
+                        <button id='adduser' onclick="alert('User added successfully');window.location.reload();">
+                            Add User
+                        </button>
+                    </center>
+                </form>
+            </div>
+            <div class='grid-item'>
+                <h1>Check User Statistics</h1>
+                <hr>
+                <br>
+                <form method='POST' action='/checkstats'>
+                    <center>
+                        <input type='text' id='uname' name='uname' placeholder='Enter Username...'>
+                        <br><br>
+                        <button id='checkstats'>
+                            Check Stats
+                        </button>
+                    </center>
+                </form>
+            </div>
+            <div class='grid-item'>
+                <h1>Get Book Statistics</h1>
+                <hr>
+                <br>
+                <form method='POST' action='/bookstats'>
+                    <center>
+                        <input type='text' id='bname' name='bname' placeholder='Enter Book Name...'>
+                        <br><br>
+                        <button id='bookstats'>
+                            Book Stats
+                        </button>
+                    </center>
+                </form>
+            </div> 
+            <div class='grid-item'>
+                <h1>
+                    Get Total Stats
+                </h1>
+                <hr>
+                <br>
+                <form method='POST' action='/totalstats'>
+                    <center>
+                        <button>
+                            Total Stats
+                        </button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Booksss
+        </title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                padding: 20px;
+                background-color: cornflowerblue;
+            }
+            h1{
+                text-align: center;
+                color: white;
+            }
+            #container{
+                width: 80%;
+                padding: 20px;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                column-gap: 10px;
+            }
+            img{
+                width: 50%;
+            }
+            .grid-item{
+                padding: 10px;
+                background-color:rgb(247, 239, 138);
+                border: 0px;
+                border-radius: 10px;
+            }
+            h3{
+                color: cornflowerblue;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            // start and stop reading only ONE book at a time
+            var reading=false;
+            $(document).ready(function(){
+                $('#stop1').prop('disabled',true);
+                $('#stop2').prop('disabled',true);
+                $('#stop3').prop('disabled',true);
+            });
+            $(document).on('click','#start1',function(){
+                $('#start1').prop('disabled',true);
+                $('#stop1').prop('disabled',false);
+                $('#start2').prop('disabled',true);
+                $('#start3').prop('disabled',true);
+                console.log('button pressed');
+                var username=$('#user').text();
+                console.log(username);
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/start",
+                    data: {
+                        username: username,
+                        bookname:'wuthering heights',
+                        timestamp:'tstamp'
+                    }
+                });
+            });
+            $(document).on('click','#stop1',function(){
+                $('#start1').prop('disabled',false);
+                $('#start2').prop('disabled',false);
+                $('#start3').prop('disabled',false);
+                $('#stop1').prop('disabled',true);
+                console.log('stop pressed');
+                var username=$('#user').text();
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/stop",
+                    data: {
+                        username: username,
+                        bookname:'the happy prince and other stories',
+                        timestamp:'tstamp'
+                    }
+                });
+            });
+            $(document).on('click','#start2',function(){
+                $('#start2').prop('disabled',true);
+                $('#stop2').prop('disabled',false);
+                $('#start1').prop('disabled',true);
+                $('#start3').prop('disabled',true);
+                console.log('start pressed');
+                var username=$('#user').text();
+                console.log(username);
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/start",
+                    data: {
+                        username: username,
+                        bookname:'swami and friends',
+                        timestamp:'tstamp'
+                    }
+                });
+            });
+            $(document).on('click','#stop2',function(){
+                $('#start1').prop('disabled',false);
+                $('#start2').prop('disabled',false);
+                $('#start3').prop('disabled',false);
+                $('#stop2').prop('disabled',true);
+                console.log('stop pressed');
+                var username=$('#user').text();
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/stop",
+                    data: {
+                        username: username,
+                        bookname:'the happy prince and other stories',
+                        timestamp:'tstamp'
+                    }
+                });
+            });
+            $(document).on('click','#start3',function(){
+                $('#start3').prop('disabled',true);
+                $('#stop3').prop('disabled',false);
+                $('#start2').prop('disabled',true);
+                $('#start1').prop('disabled',true);
+                console.log('start pressed');
+                var username=$('#user').text();
+                console.log(username);
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/start",
+                    data: {
+                        username: username,
+                        bookname:'the happy prince and other stories',
+                        timestamp:'tstamp'
+                    }
+                });
+            });
+            $(document).on('click','#stop3',function(){
+                $('#start1').prop('disabled',false);
+                $('#start2').prop('disabled',false);
+                $('#start3').prop('disabled',false);
+                $('#stop1').prop('disabled',true);
+                console.log('stop pressed');
+                var username=$('#user').text();
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/stop",
+                    data: {
+                        username: username,
+                        bookname:'the happy prince and other stories',
+                        timestamp:'tstamp'
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>
+            Welcome, <span id='user'>maddy</span> Start reading the books below!
+        </h1>
+        <hr>
+        <center>
+            <div id='container'>
+                <div class='grid-item'>
+                    <center>
+                        <img src='../images/book1.jpg' alt='wuthering heights'>
+                        <h3>
+                            WUTHERING HEIGHTS
+                        </h3>
+                       <button id='start1'>
+                                start reading
+                        </button>
+                        <button id='stop1'>
+                            stop reading
+                        </button>
+                    </center>
+                </div>
+                <div class='grid-item'>
+                    <center>
+                        <img src="../images/book2.jpeg" alt='swami and friends'>
+                        <h3>
+                            SWAMI AND FRIENDS
+                        </h3>
+                        <button id='start2'>
+                            start reading
+                        </button>
+                        <button id='stop2'>
+                            stop reading
+                        </button>
+                    </center>
+                </div>
+                <div class='grid-item'>
+                    <center>
+                        <img src='../images/book3.jpg' alt='the happy prince and other stories'>
+                        <h3>
+                            THE HAPPY PRINCE AND OTHER STORIES
+                        </h3>
+                        <button id='start3'>
+                            start reading
+                        </button>
+                        <button id='stop3'>
+                            stop reading
+                        </button>
+                    </center>
+                </div>
+            </div>
+        </center>
+    </body>
+</html>

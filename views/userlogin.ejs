@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: cornflowerblue;
+                font-family: Arial, Helvetica, sans-serif;
+                padding: 20px;
+                color:white;
+            }
+            h1{
+                text-align: center;
+            }
+            input{
+                width:200px;
+                height: 25px;
+                border:0px;
+                border-radius: 10px;
+                padding: 5px;
+                font-size: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>
+            LOGIN HERE TO READ YOUR BOOKS
+        </h1>
+        <hr>
+        <form method='POST' action='/login'>
+            <center>
+                <table>
+                    <tr>
+                        <td>
+                            <h3>
+                                Username 
+                            </h3>
+                        </td>
+                        <td>
+                            <input type='text' id='uname' name='uname' placeholder='Enter Username...'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>
+                                Password 
+                            </h3>
+                        </td>
+                        <td>
+                            <input type='password' id='pw' name='pw' placeholder='Enter Password...'>
+                        </td>
+                    </tr>
+                </table>
+                <button id='loginbt'>
+                    Login
+                </button>
+            </center>
+        </form>
+    </body>
+</html>
