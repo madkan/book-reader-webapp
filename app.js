@@ -29,13 +29,22 @@ app.get('/admin',function(req,res){
 // adding user into db
 app.post('/adduser',function(req,res){
     uname=req.body.uname;
-    obj={username : uname};
+    query={username : uname};
     // if username already exists, dont add
     // else add username to database
-    db.collection('books').insertOne(obj,function(err,result){
-        if (err) throw err;
-        console.log('1 user inserted');
-        res.send({'message':'user added'});
+    db.collection('books').find(query).toArray(function(err,result){
+        if(err) throw err;
+        if(result.length!=0)
+        {
+            res.send({'message':'username already exists'});
+        }
+        else{
+            db.collection('books').insertOne(query,function(err,result){
+                if (err) throw err;
+                console.log('1 user inserted');
+                res.send({'message':'user added'});
+            });
+        }
     });
 });
 
@@ -75,7 +84,10 @@ app.post('/bookstats',function(req,res){
 });
 
 app.post('/totalstats',function(req,res){
-    // display total reading hours of all the users on a given day
+    db.collection('books').find({}).toArray(function(err,result){
+        if(err) throw err;
+        res.send(result);
+    })
 });
 
 // USER ROUTES
@@ -85,7 +97,7 @@ app.get('/',function(req,res){
 });
 
 app.post('/login',function(req,res){
-    uname=req.body.uname;
+    uname=req.body.uname;   
     pw=req.body.pw;
     var query={username:uname};
     db.collection('books').find(query).toArray(function(error,result){
@@ -93,7 +105,11 @@ app.post('/login',function(req,res){
         console.log(result);
         //console.log(result[0]['password']);
         // set password for first time login
-        if(result[0]['password']==undefined){
+        if(result.length==0){
+            res.send({'message':'username doesnt exist'});
+        }
+        else if(result[0]['password']==undefined){
+            
             newvals={$set:{password:pw}};
             db.collection('books').updateOne(query, newvals, function(error,result){
                 if (error) throw error;
@@ -115,13 +131,14 @@ app.post('/login',function(req,res){
 
 app.post('/start',function(req,res){
     var uname=req.body.username;
-    var tstamp=req.body.timestamp;
     var bookname=req.body.bookname;
+    var tstamp=req.body.timestamp;
     console.log('start pressed');
     console.log(uname);
     // update in database
     var query={username:uname};
     db.collection('books').find(query).toArray(function(err,result){
+        console.log(result);
         if (err) throw err;
         if(result[0]['books']==undefined){
             var newvals={$set:{books:{[bookname]:{session0:{ start:tstamp, stop : undefined}}}}};

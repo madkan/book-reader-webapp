@@ -13,6 +13,7 @@ $(document).on('click','#start1',function(){
     $('#start3').prop('disabled',true);
     console.log('button pressed');
     var username=$('#user').text();
+    var tstamp=new Date();
     console.log(username);
     $.ajax(
     {
@@ -21,7 +22,7 @@ $(document).on('click','#start1',function(){
         data: {
             username: username,
             bookname:'wuthering heights',
-            timestamp:'tstamp'
+            timestamp:tstamp
         }
     });
 });
@@ -33,6 +34,7 @@ $(document).on('click','#stop1',function(){
     $('#stop1').prop('disabled',true);
     console.log('stop pressed');
     var username=$('#user').text();
+    var tstamp=new Date();
     $.ajax(
     {
         method: "POST",
@@ -40,7 +42,7 @@ $(document).on('click','#stop1',function(){
         data: {
             username: username,
             bookname:'wuthering heights',
-            timestamp:'tstamp'
+            timestamp:tstamp
         }
     });
 });
@@ -52,6 +54,7 @@ $(document).on('click','#start2',function(){
     $('#start3').prop('disabled',true);
     console.log('start pressed');
     var username=$('#user').text();
+    var tstamp=new Date();
     console.log(username);
     $.ajax(
     {
@@ -60,7 +63,7 @@ $(document).on('click','#start2',function(){
         data: {
             username: username,
             bookname:'swami and friends',
-            timestamp:'tstamp'
+            timestamp:tstamp
         }
     });
 });
@@ -72,6 +75,7 @@ $(document).on('click','#stop2',function(){
     $('#stop2').prop('disabled',true);
     console.log('stop pressed');
     var username=$('#user').text();
+    var tstamp=new Date();
     $.ajax(
     {
         method: "POST",
@@ -79,7 +83,7 @@ $(document).on('click','#stop2',function(){
         data: {
             username: username,
             bookname:'swami and friends',
-            timestamp:'tstamp'
+            timestamp:tstamp
         }
     });
 });
@@ -91,6 +95,7 @@ $(document).on('click','#start3',function(){
     $('#start1').prop('disabled',true);
     console.log('start pressed');
     var username=$('#user').text();
+    var tstamp=new Date();
     console.log(username);
     $.ajax(
     {
@@ -99,7 +104,7 @@ $(document).on('click','#start3',function(){
         data: {
             username: username,
             bookname:'the happy prince and other stories',
-            timestamp:'tstamp'
+            timestamp:tstamp
         }
     });
 });
@@ -111,6 +116,7 @@ $(document).on('click','#stop3',function(){
     $('#stop3').prop('disabled',true);
     console.log('stop pressed');
     var username=$('#user').text();
+    var tstamp=new Date();
     $.ajax(
     {
         method: "POST",
@@ -118,7 +124,7 @@ $(document).on('click','#stop3',function(){
         data: {
             username: username,
             bookname:'the happy prince and other stories',
-            timestamp:'tstamp'
+            timestamp:tstamp
         }
     });
 });
